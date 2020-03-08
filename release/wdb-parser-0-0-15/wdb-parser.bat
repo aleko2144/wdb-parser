@@ -1,1 +1,0 @@
-wdb-parser.exe test.wdb
