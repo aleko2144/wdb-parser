@@ -20,7 +20,7 @@ options = {
 }
 
 setup(name='wdb-parser',
-      version='0.0.16',
+      version='0.0.2',
       description='RnR wdb file parser and converter',
       executables=executables,
       options=options)
