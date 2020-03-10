@@ -113,6 +113,7 @@ if __name__ == '__main__':
 					name = ("Untitled_" + str(sections[i][1]))
 			
 				output_obj = open((output_spaces_dir + name + ".obj"),'w')
+				print("SimpleSpaceData (116), position " + str(hex(sections[i][1])) + ", name=" + name + '\n')
 				output_obj.write("# SimpleSpaceData (116), position " + str(hex(sections[i][1])) + '\n')
 				output_obj.write('\n')
 				
@@ -174,19 +175,22 @@ if __name__ == '__main__':
 				vert_normals = []
 				uvs = []
 				
-				print(str(vertices_len))
-				print(str(file.tell()))
+				#print(str(vertices_len))
+				#print(str(file.tell()))
 				
 				if (vertices_len > 999990):
-					printwrite(writefile, "Something went wrong. Check position " + str(hex(file.tell())) + ".")
-					break
+					printwrite(writefile, "Vertices num is too big. Check position " + str(hex(file.tell())) + ".")
+					input("Press ENTER key to exit.")
+					sys.exit(0)
 				else:
 					if (sections[i][5] == 309):
-						printwrite(output_obj, "# ContainerVertex (309), vertex_flags=" + str(verts_type) + ", num=" + str(vertices_len) + ", position=" + str(hex(sections[i][1])))
+						print("ContainerVertex (309), vertex_flags=" + str(verts_type) + ", num=" + str(vertices_len) + ", position=" + str(hex(sections[i][1])) + ", name=" + name)
+						output_obj.write("# ContainerVertex (309), vertex_flags=" + str(verts_type) + ", num=" + str(vertices_len) + ", position=" + str(hex(sections[i][1])) + '\n')
 					elif (sections[i][5] == 310):
-						printwrite(output_obj, "# ContainerVertexDynamic (310), vertex_flags=" + str(verts_type) + ", num=" + str(vertices_len) + ", position=" + str(hex(sections[i][1])))
+						print("ContainerVertexDynamic (310), vertex_flags=" + str(verts_type) + ", num=" + str(vertices_len) + ", position=" + str(hex(sections[i][1])) + ", name=" + name)
+						output_obj.write("# ContainerVertexDynamic (310), vertex_flags=" + str(verts_type) + ", num=" + str(vertices_len) + ", position=" + str(hex(sections[i][1])) + '\n')
 					
-					printwrite(output_obj, "o " + sections[i][3])
+					output_obj.write("o " + name + '\n')
 					output_obj.write('\n')
 					
 					if (verts_type == 274):
@@ -206,7 +210,7 @@ if __name__ == '__main__':
 							vert_normals.append((nx, ny, nz))
 							uvs.append((u, 1 - v))
 							
-							output_obj.write(f"v {x} {y} {z}")
+							output_obj.write(f"v {round(x, 6)} {round(y, 6)} {round(z, 6)}")
 							output_obj.write('\n')							
 					elif (verts_type == 338):
 						for i in range(vertices_len):
@@ -248,7 +252,7 @@ if __name__ == '__main__':
 							
 							uvs.append((u, 1 - v))							
 							
-							output_obj.write(f"v {x} {y} {z}")
+							output_obj.write(f"v {round(x, 6)} {round(y, 6)} {round(z, 6)}")
 							output_obj.write('\n')
 							output_obj.write(f"# DIFFUSE ({diffuse1} {diffuse2} {diffuse3} {diffuse4})")
 							output_obj.write('\n')							
@@ -267,7 +271,7 @@ if __name__ == '__main__':
 							u1 = struct.unpack('<f',file.read(4))[0]
 							v1 = struct.unpack('<f',file.read(4))[0]
 							
-							output_obj.write(f"v {x} {y} {z}")
+							output_obj.write(f"v {round(x, 6)} {round(y, 6)} {round(z, 6)}")
 							output_obj.write('\n')							
 					elif (verts_type == 530):	
 						for i in range(vertices_len):
@@ -289,7 +293,7 @@ if __name__ == '__main__':
 							u1 = struct.unpack('<f',file.read(4))[0]
 							v1 = struct.unpack('<f',file.read(4))[0]
 							
-							output_obj.write(f"v {x} {y} {z}")
+							output_obj.write(f"v {round(x, 6)} {round(y, 6)} {round(z, 6)}")
 							output_obj.write('\n')							
 					elif (verts_type == 594):
 						for i in range(vertices_len):
@@ -313,7 +317,7 @@ if __name__ == '__main__':
 							vert_normals.append((nx, ny, nz))
 							uvs.append((u, 1 - v))
 				
-							output_obj.write(f"v {x} {y} {z}")
+							output_obj.write(f"v {round(x, 6)} {round(y, 6)} {round(z, 6)}")
 							output_obj.write('\n')							
 					elif (verts_type == 786):	
 						for i in range(vertices_len):
@@ -334,7 +338,7 @@ if __name__ == '__main__':
 							vert_normals.append((nx, ny, nz))
 							uvs.append((u, 1 - v))
 							
-							output_obj.write(f"v {x} {y} {z}")
+							output_obj.write(f"v {round(x, 6)} {round(y, 6)} {round(z, 6)}")
 							output_obj.write('\n')							
 					elif (verts_type == 1042):
 						for i in range(vertices_len):
@@ -355,7 +359,7 @@ if __name__ == '__main__':
 							vert_normals.append((nx, ny, nz))
 							uvs.append((u, 1 - v))
 							
-							output_obj.write(f"v {x} {y} {z}")
+							output_obj.write(f"v {round(x, 6)} {round(y, 6)} {round(z, 6)}")
 							output_obj.write('\n')														
 					elif (verts_type == 4370):
 						for i in range(vertices_len):
@@ -376,8 +380,35 @@ if __name__ == '__main__':
 							vert_normals.append((nx, ny, nz))
 							uvs.append((u, 1 - v))
 							
-							output_obj.write(f"v {x} {y} {z}")
+							output_obj.write(f"v {round(x, 6)} {round(y, 6)} {round(z, 6)}")
 							output_obj.write('\n')			
+							output_obj.write(f"# BINDEX={bindex}")
+							output_obj.write('\n')						
+					elif (verts_type == 4374):
+						for i in range(vertices_len):
+						
+							x = struct.unpack('<f',file.read(4))[0]
+							y = struct.unpack('<f',file.read(4))[0]
+							z = struct.unpack('<f',file.read(4))[0]
+							
+							blend = struct.unpack('<f',file.read(4))[0]
+							bindex = struct.unpack('<i', file.read(4))[0]
+
+							nx = struct.unpack('<f',file.read(4))[0]
+							ny = struct.unpack('<f',file.read(4))[0]					
+							nz = struct.unpack('<f',file.read(4))[0]
+							
+							vert_normals.append((nx, ny, nz))
+							
+							u = struct.unpack('<f',file.read(4))[0]
+							v = struct.unpack('<f',file.read(4))[0]
+	
+							uvs.append((u, 1 - v))
+							
+							output_obj.write(f"v {round(x, 6)} {round(y, 6)} {round(z, 6)}")
+							output_obj.write('\n')	
+							output_obj.write(f"# blend={blend}")
+							output_obj.write('\n')							
 							output_obj.write(f"# BINDEX={bindex}")
 							output_obj.write('\n')							
 					elif (verts_type == 4434):
@@ -420,7 +451,7 @@ if __name__ == '__main__':
 							v = struct.unpack('<f',file.read(4))[0]
 							uvs.append((u, 1 - v))
 							
-							output_obj.write(f"v {x} {y} {z}")
+							output_obj.write(f"v {round(x, 6)} {round(y, 6)} {round(z, 6)}")
 							output_obj.write('\n')	
 							output_obj.write(f"# BINDEX={bindex}")
 							output_obj.write('\n')
@@ -433,7 +464,7 @@ if __name__ == '__main__':
 							y = struct.unpack('<f',file.read(4))[0]
 							z = struct.unpack('<f',file.read(4))[0]
 							
-							vert_normals.append((nx, ny, nz))
+
 							
 							bindex = struct.unpack('<i', file.read(4))[0]
 
@@ -446,12 +477,13 @@ if __name__ == '__main__':
 							v1 = struct.unpack('<f',file.read(4))[0]
 							#v8 = struct.unpack('<f',file.read(4))[0]
 							
+							vert_normals.append((nx, ny, nz))
 							uvs.append((u, 1 - v))
 							
-							output_obj.write(f"v {x} {y} {z}")
+							output_obj.write(f"v {round(x, 6)} {round(y, 6)} {round(z, 6)}")
 							output_obj.write('\n')		
 							output_obj.write(f"# BINDEX={bindex}")
-							output_obj.write('\n')
+							output_obj.write('\n')					
 					elif (verts_type == 4882):
 						for i in range(vertices_len):
 						
@@ -461,9 +493,9 @@ if __name__ == '__main__':
 							
 							file.seek(4, 1)
 							
-							v2 = struct.unpack('<f',file.read(4))[0]
-							v3 = struct.unpack('<f',file.read(4))[0]					
-							v4 = struct.unpack('<f',file.read(4))[0]
+							nx = struct.unpack('<f',file.read(4))[0]
+							ny = struct.unpack('<f',file.read(4))[0]					
+							nz = struct.unpack('<f',file.read(4))[0]
 							
 							u = struct.unpack('<f',file.read(4))[0]
 							v = struct.unpack('<f',file.read(4))[0]
@@ -477,7 +509,7 @@ if __name__ == '__main__':
 							
 							uvs.append((u, 1 - v))
 							
-							output_obj.write(f"v {x} {y} {z}")
+							output_obj.write(f"v {round(x, 6)} {round(y, 6)} {round(z, 6)}")
 							output_obj.write('\n')												
 					elif (verts_type == 5202):
 						for i in range(vertices_len):
@@ -529,7 +561,7 @@ if __name__ == '__main__':
 							vert_normals.append((nx, ny, nz))
 							uvs.append((u, 1 - v))
 							
-							output_obj.write(f"v {x} {y} {z}")
+							output_obj.write(f"v {round(x, 6)} {round(y, 6)} {round(z, 6)}")
 							output_obj.write('\n')
 							output_obj.write(f"# BINDEX={bindex}")
 							output_obj.write('\n')
@@ -554,7 +586,7 @@ if __name__ == '__main__':
 							vert_normals.append((nx, ny, nz))
 							uvs.append((u, 1 - v))
 							
-							output_obj.write(f"v {x} {y} {z}")
+							output_obj.write(f"v {round(x, 6)} {round(y, 6)} {round(z, 6)}")
 							output_obj.write('\n')							
 					elif (verts_type == 8530):
 						for i in range(vertices_len):
@@ -577,7 +609,7 @@ if __name__ == '__main__':
 							vert_normals.append((nx, ny, nz))
 							uvs.append((u, 1 - v))
 							
-							output_obj.write(f"v {x} {y} {z}")
+							output_obj.write(f"v {round(x, 6)} {round(y, 6)} {round(z, 6)}")
 							output_obj.write('\n')							
 					elif (verts_type == 8722):
 						for i in range(vertices_len):
@@ -598,61 +630,8 @@ if __name__ == '__main__':
 							vert_normals.append((nx, ny, nz))
 							uvs.append((u, 1 - v))
 							
-							output_obj.write(f"v {x} {y} {z}")
-							output_obj.write('\n')							
-					elif (verts_type == 22021394):
-						for i in range(vertices_len):
-						
-							x = struct.unpack('<f',file.read(4))[0]
-							y = struct.unpack('<f',file.read(4))[0]
-							z = struct.unpack('<f',file.read(4))[0]
-							
-							nx = struct.unpack('<f',file.read(4))[0]
-							ny = struct.unpack('<f',file.read(4))[0]					
-							nz = struct.unpack('<f',file.read(4))[0]
-							
-							u = struct.unpack('<f',file.read(4))[0]
-							v = struct.unpack('<f',file.read(4))[0]
-							
-							vert_normals.append((nx, ny, nz))
-							uvs.append((u, 1 - v))
-							
-							file.seek(8, 1) #uv1
-							file.seek(8, 1) #uv2
-							file.seek(8, 1) #uv3
-							file.seek(8, 1) #uv4
-							file.seek(8, 1) #uv5
-							
-							file.seek(4, 1)
-							
-							output_obj.write(f"v {x} {y} {z}")
-							output_obj.write('\n')							
-					elif (verts_type == 22025490):
-						for i in range(vertices_len):
-						
-							x = struct.unpack('<f',file.read(4))[0]
-							y = struct.unpack('<f',file.read(4))[0]
-							z = struct.unpack('<f',file.read(4))[0]
-							
-							nx = struct.unpack('<f',file.read(4))[0]
-							ny = struct.unpack('<f',file.read(4))[0]					
-							nz = struct.unpack('<f',file.read(4))[0]
-							
-							u = struct.unpack('<f',file.read(4))[0]
-							v = struct.unpack('<f',file.read(4))[0]
-							
-							vert_normals.append((nx, ny, nz))
-							uvs.append((u, 1 - v))
-							
-							file.seek(8, 1) #uv1
-							file.seek(8, 1) #uv2
-							file.seek(8, 1) #uv3
-							file.seek(8, 1) #uv4
-							file.seek(8, 1) #uv5
-							file.seek(8, 1) #uv6
-							
-							output_obj.write(f"v {x} {y} {z}")
-							output_obj.write('\n')							
+							output_obj.write(f"v {round(x, 6)} {round(y, 6)} {round(z, 6)}")
+							output_obj.write('\n')													
 					elif (verts_type == 3416834):
 						for i in range(vertices_len):
 						
@@ -674,7 +653,7 @@ if __name__ == '__main__':
 							vert_normals.append((nx, ny, nz))
 							uvs.append((u, 1 - v))
 							
-							output_obj.write(f"v {x} {y} {z}")
+							output_obj.write(f"v {round(x, 6)} {round(y, 6)} {round(z, 6)}")
 							output_obj.write('\n')														
 					elif (verts_type == 3420930): #4882
 						for i in range(vertices_len):
@@ -702,7 +681,7 @@ if __name__ == '__main__':
 							vert_normals.append((nx, ny, nz))
 							uvs.append((u, 1 - v))
 							
-							output_obj.write(f"v {x} {y} {z}")
+							output_obj.write(f"v {round(x, 6)} {round(y, 6)} {round(z, 6)}")
 							output_obj.write('\n')													
 					elif (verts_type == 5506066):
 						for i in range(vertices_len):
@@ -724,7 +703,7 @@ if __name__ == '__main__':
 							
 							file.seek(36, 1)
 							
-							output_obj.write(f"v {x} {y} {z}")
+							output_obj.write(f"v {round(x, 6)} {round(y, 6)} {round(z, 6)}")
 							output_obj.write('\n')						
 					elif (verts_type == 5510162):
 						for i in range(vertices_len):
@@ -749,25 +728,119 @@ if __name__ == '__main__':
 							
 							file.seek(36, 1)
 
-							output_obj.write(f"v {x} {y} {z}")
-							output_obj.write('\n')													
+							output_obj.write(f"v {round(x, 6)} {round(y, 6)} {round(z, 6)}")
+							output_obj.write('\n')								
+					elif (verts_type == 5510166):
+						for i in range(vertices_len):
+						
+							x = struct.unpack('<f',file.read(4))[0]
+							y = struct.unpack('<f',file.read(4))[0]
+							z = struct.unpack('<f',file.read(4))[0]
+							
+							blend = struct.unpack('<f',file.read(4))[0]
+							bindex = struct.unpack('<i', file.read(4))[0]
+
+							nx = struct.unpack('<f',file.read(4))[0]
+							ny = struct.unpack('<f',file.read(4))[0]					
+							nz = struct.unpack('<f',file.read(4))[0]
+							
+							vert_normals.append((nx, ny, nz))
+							
+							u = struct.unpack('<f',file.read(4))[0]
+							v = struct.unpack('<f',file.read(4))[0]
+							
+							u1 = struct.unpack('<f',file.read(4))[0]
+							v1 = struct.unpack('<f',file.read(4))[0]
+							w1 = struct.unpack('<f',file.read(4))[0]
+							
+							u2 = struct.unpack('<f',file.read(4))[0]
+							v2 = struct.unpack('<f',file.read(4))[0]
+							w2 = struct.unpack('<f',file.read(4))[0]
+							
+							u3 = struct.unpack('<f',file.read(4))[0]
+							v3 = struct.unpack('<f',file.read(4))[0]
+							w3 = struct.unpack('<f',file.read(4))[0]
+	
+							uvs.append((u, 1 - v))
+							
+							output_obj.write(f"v {round(x, 6)} {round(y, 6)} {round(z, 6)}")
+							output_obj.write('\n')	
+							output_obj.write(f"# blend={blend}")
+							output_obj.write('\n')							
+							output_obj.write(f"# BINDEX={bindex}")
+							output_obj.write('\n')			
+					elif (verts_type == 22021394):
+						for i in range(vertices_len):
+						
+							x = struct.unpack('<f',file.read(4))[0]
+							y = struct.unpack('<f',file.read(4))[0]
+							z = struct.unpack('<f',file.read(4))[0]
+							
+							nx = struct.unpack('<f',file.read(4))[0]
+							ny = struct.unpack('<f',file.read(4))[0]					
+							nz = struct.unpack('<f',file.read(4))[0]
+							
+							u = struct.unpack('<f',file.read(4))[0]
+							v = struct.unpack('<f',file.read(4))[0]
+							
+							vert_normals.append((nx, ny, nz))
+							uvs.append((u, 1 - v))
+							
+							file.seek(8, 1) #uv1
+							file.seek(8, 1) #uv2
+							file.seek(8, 1) #uv3
+							file.seek(8, 1) #uv4
+							file.seek(8, 1) #uv5
+							
+							file.seek(4, 1)
+							
+							output_obj.write(f"v {round(x, 6)} {round(y, 6)} {round(z, 6)}")
+							output_obj.write('\n')							
+					elif (verts_type == 22025490):
+						for i in range(vertices_len):
+						
+							x = struct.unpack('<f',file.read(4))[0]
+							y = struct.unpack('<f',file.read(4))[0]
+							z = struct.unpack('<f',file.read(4))[0]
+							
+							nx = struct.unpack('<f',file.read(4))[0]
+							ny = struct.unpack('<f',file.read(4))[0]					
+							nz = struct.unpack('<f',file.read(4))[0]
+							
+							u = struct.unpack('<f',file.read(4))[0]
+							v = struct.unpack('<f',file.read(4))[0]
+							
+							vert_normals.append((nx, ny, nz))
+							uvs.append((u, 1 - v))
+							
+							file.seek(8, 1) #uv1
+							file.seek(8, 1) #uv2
+							file.seek(8, 1) #uv3
+							file.seek(8, 1) #uv4
+							file.seek(8, 1) #uv5
+							file.seek(8, 1) #uv6
+							
+							output_obj.write(f"v {round(x, 6)} {round(y, 6)} {round(z, 6)}")
+							output_obj.write('\n')								
 					else:
-						printwrite(output_file, "(!!!) unknown verts type: " + str(verts_type))
-						printwrite(output_file, "verts length (counted): " + str(int((block_length - 16 - sections[i][4]) / vertices_len)))
-						break
+						printwrite(writefile, "Unknown verts type: " + str(verts_type))
+						printwrite(writefile, "Verts length (counted): " + str(int((block_length - 16 - sections[i][4]) / vertices_len)))
+						input("Press ENTER key to exit.")
+						sys.exit(0)
 					
 					for i in range(len(uvs)):
-						printwrite(output_obj, f"vt {uvs[i][0]} {uvs[i][1]}")
-						
+						output_obj.write(f"vt {round(uvs[i][0], 6)} {round(uvs[i][1], 6)}")
+						output_obj.write('\n')
+							
 					for i in range(len(vert_normals)):
-						printwrite(output_obj, f"vn {vert_normals[i][0]} {vert_normals[i][1]} {vert_normals[i][2]}")
+						output_obj.write(f"vn {round(vert_normals[i][0], 6)} {round(vert_normals[i][1], 6)} {round(vert_normals[i][2], 6)}")
+						output_obj.write('\n')
 						
 						
 				mesh_type = struct.unpack("<i",file.read(4))[0]
 				
 				#print("type: " + str(mesh_type))
 				mesh_section_length = struct.unpack("<i",file.read(4))[0]
-				print("section length: " + str(mesh_section_length))
 				file.seek(1, 1)
 				faces_type = struct.unpack("<i",file.read(4))[0]
 				
@@ -780,123 +853,69 @@ if __name__ == '__main__':
 				
 				faces_count = struct.unpack("<i",file.read(4))[0]
 				
-				print("faces count: " + str(faces_count))
 				if (mesh_type == 312):
-					printwrite(output_obj, "\n" + "# ContainerIndex (312), index_flags=" + str(faces_type) + ", num=" + str(faces_count) + ", position=" + str(hex(file.tell())))
+					print("ContainerIndex (312), index_flags=" + str(faces_type) + ", num=" + str(faces_count) + ", position=" + str(hex(file.tell())))
+					output_obj.write("\n" + "# ContainerIndex (312), index_flags=" + str(faces_type) + ", num=" + str(faces_count) + ", position=" + str(hex(file.tell())))
 				elif (mesh_type == 313):
-					printwrite(output_obj, "\n" + "# ContainerIndexDynamic (313), index_flags=" + str(faces_type) + ", num=" + str(faces_count) + ", position=" + str(hex(file.tell())))
-				printwrite(output_obj, "\n" + "s 1")
+					print("ContainerIndexDynamic (313), index_flags=" + str(faces_type) + ", num=" + str(faces_count) + ", position=" + str(hex(file.tell())))
+					output_obj.write("\n" + "# ContainerIndexDynamic (313), index_flags=" + str(faces_type) + ", num=" + str(faces_count) + ", position=" + str(hex(file.tell())))
+				output_obj.write("\n" + "s 1")
 				
 				if (faces_count > 256000):
-					break
-					print("error")
-					print(str(file.tell()))
+					printwrite(writefile, "Faces num is too big. Check position " + str(hex(file.tell())) + ".")
+					input("Press ENTER key to exit.")
+					sys.exit(0)
 				else:	
 					output_obj.write('\n')
 					if (mesh_type == 312):
-						if (verts_type == 5506066):
-							for i in range(int(faces_count / 3)):
-								f1_r = struct.unpack("<H",file.read(2))[0]
-								f2_r = struct.unpack("<H",file.read(2))[0]
-								f3_r = struct.unpack("<H",file.read(2))[0]
+						for i in range(int(faces_count / 3)):
+							f1_r = struct.unpack("<H",file.read(2))[0]
+							f2_r = struct.unpack("<H",file.read(2))[0]
+							f3_r = struct.unpack("<H",file.read(2))[0]
 										
-								f1 = 0
-								f2 = 0
-								f3 = 0
+							f1 = 0
+							f2 = 0
+							f3 = 0
 								
+							to_print_f1 = ""
+							to_print_f2 = ""
+							to_print_f3 = ""
+										
+							if (f1_r + 1 < vertices_len):
+								f1 = f1_r + 1
+								to_print_f1 = str(f1)
+							else:
+								f1 = -1
 								to_print_f1 = ""
+											
+							if (f2_r + 1 < vertices_len):
+								f2 = f2_r + 1
+								to_print_f2 = str(f2)
+							else:
+								f2 = -1
 								to_print_f2 = ""
+												
+							if (f3_r + 1 < vertices_len):
+								f3 = f3_r + 1
+								to_print_f3 = str(f3)
+							else:
+								f3 = -1
 								to_print_f3 = ""
-										
-								if (f1_r + 2 < vertices_len):
-									f1 = f1_r + 1
-									to_print_f1 = str(f1)
-								else:
-									f1 = -1
-									to_print_f1 = ""
-											
-								if (f2_r + 2 < vertices_len):
-									f2 = f2_r + 1
-									to_print_f2 = str(f2)
-								else:
-									f2 = -1
-									to_print_f2 = ""
-											
-								if (f3_r + 2 < vertices_len):
-									f3 = f3_r + 1
-									to_print_f3 = str(f3)
-								else:
-									f3 = -1
-									to_print_f3 = ""
+								
+							if (to_print_f1 != "" or to_print_f2 != "" or to_print_f3 != ""):
+								output_obj.write("f ")
+								
+								if (to_print_f1 != ""):
+									output_obj.write(to_print_f1 + "/" + to_print_f1 + "/" + to_print_f1 + " ")
 									
-								if (to_print_f1 != "" or to_print_f2 != "" or to_print_f3 != ""):
-									output_obj.write("f ")
-									
-									if (to_print_f1 != ""):
-										output_obj.write(to_print_f1 + "/" + to_print_f1 + "/" + to_print_f1 + " ")
-										
-									if (to_print_f2 != ""):
-										output_obj.write(to_print_f2 + "/" + to_print_f2 + "/" + to_print_f2 + " ")
-										
-									if (to_print_f3 != ""):
-										output_obj.write(to_print_f3 + "/" + to_print_f3 + "/" + to_print_f3)
-										
+								if (to_print_f2 != ""):
+									output_obj.write(to_print_f2 + "/" + to_print_f2 + "/" + to_print_f2 + " ")
+								
+								if (to_print_f3 != ""):
+									output_obj.write(to_print_f3 + "/" + to_print_f3 + "/" + to_print_f3)
 			
-									output_obj.write('\n')
-								
-						else:
-							for i in range(int(faces_count / 3)):
-								
-								f1_r = struct.unpack("<H",file.read(2))[0]
-								f2_r = struct.unpack("<H",file.read(2))[0]
-								f3_r = struct.unpack("<H",file.read(2))[0]
-										
-								f1 = 0
-								f2 = 0
-								f3 = 0
-								
-								to_print_f1 = ""
-								to_print_f2 = ""
-								to_print_f3 = ""
-										
-								if (f1_r + 2 < vertices_len):
-									f1 = f1_r + 1
-									to_print_f1 = str(f1)
-								else:
-									f1 = -1
-									to_print_f1 = ""
-											
-								if (f2_r + 2 < vertices_len):
-									f2 = f2_r + 1
-									to_print_f2 = str(f2)
-								else:
-									f2 = -1
-									to_print_f2 = ""
-											
-								if (f3_r + 2 < vertices_len):
-									f3 = f3_r + 1
-									to_print_f3 = str(f3)
-								else:
-									f3 = -1
-									to_print_f3 = ""
-									
-								if (to_print_f1 != "" or to_print_f2 != "" or to_print_f3 != ""):
-									output_obj.write("f ")
-									
-									if (to_print_f1 != ""):
-										output_obj.write(to_print_f1 + "/" + to_print_f1 + " ")
-										
-									if (to_print_f2 != ""):
-										output_obj.write(to_print_f2 + "/" + to_print_f2 + " ")
-										
-									if (to_print_f3 != ""):
-										output_obj.write(to_print_f3 + "/" + to_print_f3)
-										
-			
-									output_obj.write('\n')
-										
-								#printwrite(output_obj, f"f {f1}/{f1} {f2}/{f2} {f3}/{f3}")
-								#printwrite(output_obj, f"f {f1}/{f1}/{f1} {f2}/{f2}/{f2} {f3}/{f3}/{f3}")
+								output_obj.write('\n')
+
 					elif (mesh_type == 313): #needs to be fixed
 						for i in range(int(faces_count / 3)):
 							
@@ -924,9 +943,91 @@ if __name__ == '__main__':
 								f3 = -1
 								
 								
-							printwrite(output_obj, f"f {f1}/{f1} {f2}/{f2} {f3}/{f3}")
+							output_obj.write(f"f {f1}/{f1} {f2}/{f2} {f3}/{f3}")
+							output_obj.write('\n')
 							
-					output_obj.write('\n')
+		print("EOF")
+							# f1_r = struct.unpack("<H",file.read(2))[0]
+							# f2_r = struct.unpack("<H",file.read(2))[0]
+							# f3_r = struct.unpack("<H",file.read(2))[0]
+							
+							# f1 = 0
+							# f2 = 0
+							# f3 = 0
+							
+							# if (f1_r + 2 < vertices_len):
+								# f1 = f1_r + 1
+							# else:
+								# f1 = 1
+								
+							# if (f2_r + 2 < vertices_len):
+								# f2 = f2_r + 1
+							# else:
+								# f2 = 1
+								
+							# if (f3_r + 2 < vertices_len):
+								# f3 = f3_r + 1
+							# else:
+								# f3 = 1
+							
+							
+							# printwrite(output_obj, f"f {f1}/{f1}/{f1} {f2}/{f2}/{f2} {f3}/{f3}/{f3}")
+						
+								
+						# else:
+							# for i in range(int(faces_count / 3)):
+								
+								# f1_r = struct.unpack("<H",file.read(2))[0]
+								# f2_r = struct.unpack("<H",file.read(2))[0]
+								# f3_r = struct.unpack("<H",file.read(2))[0]
+										
+								# f1 = 0
+								# f2 = 0
+								# f3 = 0
+								
+								# to_print_f1 = ""
+								# to_print_f2 = ""
+								# to_print_f3 = ""
+										
+								# if (f1_r + 2 < vertices_len):
+									# f1 = f1_r + 1
+									# to_print_f1 = str(f1)
+								# else:
+									# f1 = -1
+									# to_print_f1 = ""
+											
+								# if (f2_r + 2 < vertices_len):
+									# f2 = f2_r + 1
+									# to_print_f2 = str(f2)
+								# else:
+									# f2 = -1
+									# to_print_f2 = ""
+											
+								# if (f3_r + 2 < vertices_len):
+									# f3 = f3_r + 1
+									# to_print_f3 = str(f3)
+								# else:
+									# f3 = -1
+									# to_print_f3 = ""
+									
+								# if (to_print_f1 != "" or to_print_f2 != "" or to_print_f3 != ""):
+									# output_obj.write("f ")
+									
+									# if (to_print_f1 != ""):
+										# output_obj.write(to_print_f1 + "/" + to_print_f1 + " ")
+										
+									# if (to_print_f2 != ""):
+										# output_obj.write(to_print_f2 + "/" + to_print_f2 + " ")
+										
+									# if (to_print_f3 != ""):
+										# output_obj.write(to_print_f3 + "/" + to_print_f3)
+										
+			
+									# output_obj.write('\n')
+										
+								#printwrite(output_obj, f"f {f1}/{f1} {f2}/{f2} {f3}/{f3}")
+								#printwrite(output_obj, f"f {f1}/{f1}/{f1} {f2}/{f2}/{f2} {f3}/{f3}/{f3}")
+							
 				#if (fc_1 == 73084):
 				#	break
 				
